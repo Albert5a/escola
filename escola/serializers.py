@@ -13,8 +13,8 @@ class EstudanteSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"cpf": "CPF deve ser válido"})
         if nome_invalido(dados["nome"]):
             raise serializers.ValidationError({"nome": "Nome só pode ter letras"})
-        if celular_invalido(dados["cel"]):
-            raise serializers.ValidationError({"cel": "Celular deve seguir o modelo: 00 00000-0000. Respeitando traços e espaços."})
+        if celular_invalido(dados["celular"]):
+            raise serializers.ValidationError({"celular": "Celular deve seguir o modelo: 00 00000-0000. Respeitando traços e espaços."})
         return dados
 
 
@@ -48,3 +48,8 @@ class ListaMatriculasCursoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Matricula
         fields = ["estudante_nome"]
+
+class EstudanteSerializerV2(serializers.ModelSerializer):
+    class Meta:
+        model = Estudante
+        fields = ["id", "nome", "email", "celular"]

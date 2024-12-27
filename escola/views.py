@@ -5,6 +5,7 @@ from escola.serializers import (
     MatriculaSerializer,
     ListaMatriculasEstudanteSerializer,
     ListaMatriculasCursoSerializer,
+    EstudanteSerializerV2
 )
 from rest_framework.permissions import (
     IsAdminUser,
@@ -17,9 +18,18 @@ from django_filters.rest_framework import DjangoFilterBackend
 class EstudanteViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
     queryset = Estudante.objects.all()
-    serializer_class = EstudanteSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    # serializer_class = EstudanteSerializer
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+        filters.SearchFilter,
+    ]
     ordering_fields = ["nome"]
+    search_fields = ["nome", "cpf"]
+    def get_serializer_class(self):
+        if self.request.version == 'v2':
+            return EstudanteSerializerV2
+        return EstudanteSerializer
 
 
 class CursoViewSet(viewsets.ModelViewSet):
