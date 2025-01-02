@@ -1,2 +1,4 @@
 venv
 db.sqlite3
+popular_banco_cursos.py
+popular_banco_estudantes.py
